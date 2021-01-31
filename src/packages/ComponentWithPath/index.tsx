@@ -8,7 +8,6 @@ const defaultOptions: Required<CreateRootOptions> = {
   separator: "_"
 };
 
-
 export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
   const { separator } = {
     ...defaultOptions,
@@ -28,7 +27,7 @@ export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
         }
       </Context.Consumer>;
     };
-    ComponentWithPath.displayName = `ComponentWithPath(${getDisplayName(WrappedComponent)})`;
+    ComponentWithPath.displayName = "ComponentWithPath(" + (WrappedComponent.displayName || WrappedComponent.name || "Component") + ")";
     return ComponentWithPath;
   };
   return {
@@ -39,7 +38,3 @@ export interface WithPathProps {
   id: string;
   usePath: () => string
 }
-
-const getDisplayName = function <P>(WrappedComponent: ComponentType<P>) {
-  return WrappedComponent.displayName || WrappedComponent.name || "Component";
-};
