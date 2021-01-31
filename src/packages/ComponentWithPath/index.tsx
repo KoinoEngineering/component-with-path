@@ -1,16 +1,16 @@
 import React, { ComponentType, createContext, useContext } from "react";
 
 export interface CreateRootOptions {
-  splitter?: string
+  separator?: string
 }
 
 const defaultOptions: Required<CreateRootOptions> = {
-  splitter: "_"
+  separator: "_"
 };
 
 
 export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
-  const { splitter } = {
+  const { separator } = {
     ...defaultOptions,
     ...options
   };
@@ -21,7 +21,7 @@ export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
       return <Context.Consumer>
         {
           path => {
-            return <Context.Provider value={path + splitter + props.id}>
+            return <Context.Provider value={path + separator + props.id}>
               <WrappedComponent {...({ ...props, usePath } as P)} />
             </Context.Provider>;
           }
