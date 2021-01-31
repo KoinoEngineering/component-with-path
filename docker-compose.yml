@@ -1,0 +1,11 @@
+version: "3"
+volumes:
+    node_modules:
+services:
+  front:
+    image: node:fermium
+    volumes:
+      - ./:/src:delegated
+      - node_modules:/src/node_modules
+    working_dir: /src
+    command: tail -f /dev/null

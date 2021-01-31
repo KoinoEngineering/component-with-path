@@ -1,0 +1,20 @@
+{
+    // コンテナの名前
+    "name": "dev container",
+    // Docker Composeの設定ファイルパス
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+    ],
+    // コンテナのサービス名
+    "service": "front",
+    // VSCodeで開くコンテナ内のパス
+    "workspaceFolder": "/src",
+    // コンテナ内で使用する拡張機能
+    "extensions": [
+        "dbaeumer.vscode-eslint",
+        "coenraads.bracket-pair-colorizer",
+        "sohamkamani.code-eol",
+        "oderwat.indent-rainbow",
+        "ms-ceintl.vscode-language-pack-ja"
+    ]
+}
