@@ -5,7 +5,7 @@ export interface CreateRootOptions {
 }
 
 const defaultOptions: Required<CreateRootOptions> = {
-  separator: "_"
+  separator: "."
 };
 
 export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
