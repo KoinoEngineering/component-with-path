@@ -15,13 +15,14 @@ export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
     ...options
   };
   const Context = createContext(rootPath);
+  const usePath = () => { return useContext(Context); };
   const withPath = function <P extends WithPathProps>(WrappedComponent: ComponentType<P>) {
-    const ComponentWithPath: React.FC<P> = (props) => {
+    const ComponentWithPath: React.FC<Omit<P, "usePath">> = (props) => {
       return <Context.Consumer>
         {
           path => {
             return <Context.Provider value={path + splitter + props.id}>
-              <WrappedComponent {...props} />
+              <WrappedComponent {...({ ...props, usePath } as P)} />
             </Context.Provider>;
           }
         }
@@ -30,14 +31,13 @@ export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
     ComponentWithPath.displayName = `ComponentWithPath(${getDisplayName(WrappedComponent)})`;
     return ComponentWithPath;
   };
-  const usePath = () => { return useContext(Context); };
   return {
     withPath,
-    usePath
   };
 };
 export interface WithPathProps {
   id: string;
+  usePath: () => string
 }
 
 const getDisplayName = function <P>(WrappedComponent: ComponentType<P>) {

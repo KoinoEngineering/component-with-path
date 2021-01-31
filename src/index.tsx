@@ -5,8 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 
 export const Root = createRoot("root");
 
-const EchoPathMain: React.FC<WithPathProps> = ({ id, children }) => {
-    const path = Root.usePath();
+const EchoPathMain: React.FC<WithPathProps> = ({ id, children, usePath }) => {
+    const path = usePath();
     return <div>
         <div>My ID : {id}</div>
         <div>My path from Root : {path}</div>
