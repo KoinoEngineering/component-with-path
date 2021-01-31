@@ -19,12 +19,17 @@ export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
     const ComponentWithPath: React.FC<Omit<P, "usePath">> = (props) => {
       const contextPath = useContext(Context);
       const pathFromRoot = contextPath + separator;
-      const isStartWithRoot = () => { return props.id.startsWith(pathFromRoot); };
-      if (isStartWithRoot()) {
-        warn("idがパスで始まるのを検出しました。パスの重複を避けるためにid中のパス部分を削除してからパスに連結します。");
-      }
-      const childPath = isStartWithRoot() ? props.id.replace(pathFromRoot, "") : props.id;
-      return <Context.Provider value={pathFromRoot + childPath}>
+
+      const getId = () => {
+        if (props.id.startsWith(pathFromRoot)) {
+          warn("idがパスで始まるのを検出しました。パスの重複を避けるためにid中のパス部分を削除してからパスに連結します。パス：" + pathFromRoot + "/id：" + props.id);
+          return props.id.replace(pathFromRoot, "");
+        } else {
+          return props.id;
+        }
+      };
+
+      return <Context.Provider value={pathFromRoot + getId()}>
         <WrappedComponent {...({ ...props, usePath } as P)} />
       </Context.Provider>;
     };
