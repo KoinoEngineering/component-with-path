@@ -1,4 +1,4 @@
-import React, { ComponentType, createContext, useContext } from "react";
+import React, { ComponentType, createContext } from "react";
 
 export interface CreateRootOptions {
     separator?: string
@@ -19,24 +19,29 @@ export const createRoot = (rootPath: string, options?: CreateRootOptions) => {
         ...options
     };
     const Context = createContext(rootPath);
-    const usePath = () => { return useContext(Context); };
     const withPath = function <P extends WithPathProps>(WrappedComponent: ComponentType<P>) {
         const ComponentWithPath: React.FC<Omit<P, "usePath">> = (props) => {
-            const contextPath = useContext(Context);
-            const pathFromRoot = contextPath + separator;
+            return <Context.Consumer>
+                {
+                    (contextPath) => {
+                        const pathFromRoot = contextPath + separator;
 
-            const getId = () => {
-                if (props.id.startsWith(pathFromRoot)) {
-                    warn("idがパスで始まるのを検出しました。パスの重複を避けるためにid中のパス部分を削除してからパスに連結します。パス：" + pathFromRoot + "/id：" + props.id);
-                    return props.id.replace(pathFromRoot, "");
-                } else {
-                    return props.id;
+                        const getId = () => {
+                            if (props.id.startsWith(pathFromRoot)) {
+                                warn("idがパスで始まるのを検出しました。パスの重複を避けるためにid中のパス部分を削除してからパスに連結します。パス：" + pathFromRoot + "/id：" + props.id);
+                                return props.id.replace(pathFromRoot, "");
+                            } else {
+                                return props.id;
+                            }
+                        };
+
+                        const path = pathFromRoot + getId();
+                        return <Context.Provider value={pathFromRoot + getId()}>
+                            <WrappedComponent {...({ ...props, usePath: () => { return path; } } as P)} />
+                        </Context.Provider>;
+                    }
                 }
-            };
-
-            return <Context.Provider value={pathFromRoot + getId()}>
-                <WrappedComponent {...({ ...props, usePath } as P)} />
-            </Context.Provider>;
+            </Context.Consumer>;
         };
         ComponentWithPath.displayName = "ComponentWithPath(" + (WrappedComponent.displayName || WrappedComponent.name || "Component") + ")";
         return ComponentWithPath;
