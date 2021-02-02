@@ -4,6 +4,12 @@
   "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
+  "keywords": [
+    "react",
+    "hoc",
+    "id",
+    "path"
+  ],
   "dependencies": {},
   "scripts": {
     "start": "react-scripts start",
