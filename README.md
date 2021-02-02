@@ -8,7 +8,6 @@
 
 ## 使用方法
 ### 基本の使用方法
-    ```
     import React from "react";
     import ReactDOM from "react-dom";
     import { createRoot } from "component-with-path";
@@ -50,9 +49,8 @@
         </React.StrictMode>,
         document.getElementById("root")
     );
-    ```
+
 ### 複数のルート / 複数のコンポーネント
-    ```
     // 複数のルートを使用可能
     const Root1 = createRoot("root1");
     const Root2 = createRoot("root2");
@@ -77,14 +75,13 @@
         </React.StrictMode>,
         document.getElementById("root")
     );
-    ```
 ### 各種オプション
-    - 使い方
-        ```
-        // createRootの第2引数にオプションオブジェクトを渡すことが可能
-        const Root = createRoot("root", {separator : "_"})
-        ```
-    - プロパティ
-        |プロパティ名|型|デフォルト|
-        |-|-|-|
-        |separator|string|"."|
+  - 使い方
+    ```
+    // createRootの第2引数にオプションオブジェクトを渡すことが可能
+    const Root = createRoot("root", {separator : "_"})
+    ```
+  - プロパティ
+    |プロパティ名|型|デフォルト|
+    |-|-|-|
+    |separator|string|"."|
